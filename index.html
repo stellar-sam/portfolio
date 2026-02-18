@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sambhav Jain | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --space-black: #020617;
+            --luxury-purple: #7c3aed;
+            --royal-indigo: #1e1b4b;
+            --gold-accent: #fbbf24;
+            --star-white: #fafaf9;
+            --nebula-soft: rgba(124, 58, 237, 0.1);
+        }
+
+        body {
+            background-color: var(--space-black);
+            color: #f8fafc;
+            font-family: 'Optima', 'Segoe UI', Tahoma, sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* Subtle Purple Nebula Accents */
+        .nebula-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 90% 90%, rgba(30, 27, 75, 0.2) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        #star-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .luxury-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .project-card {
+            border: 1px solid rgba(124, 58, 237, 0.1);
+            background: rgba(30, 41, 59, 0.3);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden; 
+        }
+
+        .project-card:hover {
+            border-color: var(--luxury-purple);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.15);
+            transform: translateY(-8px);
+        }
+
+        /* Improved Media Container: Better aspect ratio and contain fit */
+        .media-container {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background: #080c14;
+            margin-bottom: 1.5rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-in;
+            user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .media-container:active {
+            cursor: grabbing;
+        }
+
+        .media-container img, .media-container video {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .project-card:hover .media-container img, .project-card:hover .media-container video {
+            transform: scale(1.02);
+        }
+
+        /* Nav Buttons */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 20;
+            opacity: 0;
+            transition: all 0.3s;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .media-container:hover .nav-btn {
+            opacity: 1;
+        }
+
+        .nav-btn:hover {
+            background: var(--luxury-purple);
+            border-color: var(--luxury-purple);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-prev { left: 12px; }
+        .nav-next { right: 12px; }
+
+        /* Slideshow Controls */
+        .slideshow-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+            background: rgba(0,0,0,0.5);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--luxury-purple);
+            transform: scale(1.4);
+            box-shadow: 0 0 8px var(--luxury-purple);
+        }
+
+        /* Lightbox UI */
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        #lightbox img, #lightbox video {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            cursor: default;
+        }
+
+        #game-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            z-index: 1000;
+            cursor: crosshair;
+        }
+
+        .easter-egg-trigger {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .easter-egg-trigger:hover {
+            color: var(--luxury-purple);
+            filter: drop-shadow(0 0 8px var(--luxury-purple));
+        }
+
+        .category-tag {
+            font-size: 0.65rem;
+            padding: 2px 12px;
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--luxury-purple);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 99px;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+        .locked-warp {
+            color: #ef4444 !important;
+            animation: shake 0.2s infinite;
+        }
+
+        /* Minimal Helm Styling */
+        #footer-warp-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #footer-warp-icon:hover svg {
+            transform: rotate(45deg);
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--space-black); }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="star-canvas"></canvas>
+    <div class="nebula-bg"></div>
+
+    <div id="game-overlay">
+        <div class="absolute top-8 left-8 text-violet-400 font-serif text-lg tracking-widest z-[1001]">
+            ESTABLISHING WARP... <br>
+            <span class="text-xs opacity-50">ESC TO DISEMBARK</span>
+        </div>
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <div class="absolute top-6 right-6 text-white/50 hover:text-white transition cursor-pointer text-2xl">✕</div>
+        <div id="lightbox-content" class="flex items-center justify-center p-4">
+            <!-- Media injected here -->
+        </div>
+    </div>
+
+    <header class="relative pt-24 pb-16 px-6">
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+                <div>
+                    <h1 class="text-6xl md:text-8xl font-light tracking-tighter mb-4 text-white">
+                        Sambhav <span class="text-violet-500">Jain</span>
+                    </h1>
+                </div>
+                
+                <div class="luxury-panel p-6 rounded-xl text-xs tracking-widest space-y-3 min-w-[280px]">
+                    <div class="text-violet-400/50 uppercase border-b border-white/10 pb-2 mb-3">Communications</div>
+                    <div class="grid grid-cols-2 gap-x-6 gap-y-2">
+                        <span class="text-white/40">MAIL:</span> <a href="mailto:your-email@example.com" class="text-white hover:text-violet-400 transition">Email</a>
+                        <span class="text-white/40">LINKEDIN:</span> <a href="https://linkedin.com/in/your-profile" class="text-white hover:text-violet-400 transition">Profile</a>
+                        <span class="text-white/40">GITHUB:</span> <a href="https://github.com/stellar-sam" class="text-white hover:text-violet-400 transition">stellar-sam</a>
+                        <span class="text-white/40">DISCORD:</span> <span class="text-white">your_id</span>
+                        <span class="text-white/40">STATUS:</span> <span id="status-trigger" onclick="toggleLogicGate()" class="easter-egg-trigger text-emerald-400">[NOMINAL]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="logic-egg" class="hidden max-w-6xl mx-auto mt-12 luxury-panel p-8 rounded-2xl border-emerald-500/20">
+            <div class="flex flex-wrap items-center gap-8 justify-center">
+                <span class="text-xs text-emerald-500 tracking-[0.3em] font-light">IGNITION_SEQUENCE</span>
+                <button onclick="eggSwitch(1)" id="sw1" class="border border-emerald-500/30 px-6 py-2 text-xs rounded-full hover:bg-emerald-500/10 transition-all uppercase tracking-widest">Input_A: 0</button>
+                <button onclick="eggSwitch(2)" id="sw2" class="border border-emerald-500/30 px-6 py-2 text-xs rounded-full hover:bg-emerald-500/10 transition-all uppercase tracking-widest">Input_B: 0</button>
+                <div id="egg-led" class="w-4 h-4 rounded-full bg-emerald-950 border border-emerald-500/50"></div>
+                <span id="egg-msg" class="text-[10px] text-emerald-600 tracking-widest uppercase">System Standby</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto py-12 px-6">
+        <section>
+            <div class="flex items-center gap-6 mb-16">
+                <h2 class="text-3xl font-light tracking-[0.4em] text-white uppercase">Portfolio</h2>
+                <div class="h-[1px] flex-1 bg-gradient-to-r from-violet-500/30 to-transparent"></div>
+            </div>
+            
+            <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+                <!-- Projects -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-32 py-20 border-t border-white/5 text-center">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col items-center">
+            <div id="footer-warp-icon" onclick="attemptWarp()" class="easter-egg-trigger text-white/10 mb-8 transition-all duration-700" title="Ignition Required">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="12" cy="12" r="7" />
+                    <line x1="12" y1="1" x2="12" y2="5" />
+                    <line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="1" y1="12" x2="5" y2="12" />
+                    <line x1="19" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="4.22" x2="7.05" y2="7.05" />
+                    <line x1="16.95" y1="16.95" x2="19.78" y2="19.78" />
+                    <line x1="4.22" y1="19.78" x2="7.05" y2="16.95" />
+                    <line x1="16.95" y1="7.05" x2="19.78" y2="4.22" />
+                </svg>
+            </div>
+            <p class="text-white/20 text-xs tracking-[0.5em] uppercase mb-2">Sambhav Jain // Earth // 2026</p>
+            <p class="text-[9px] text-white/10 tracking-widest uppercase">Propulsion provided by logic-gate circuits</p>
+        </div>
+    </footer>
+
+    <script>
+        const projects = [
+            {
+                name: "Health Monitoring using AI & Sensors",
+                description: "Wearable device to monitor health using embedded sensors and AI NLP models.",
+                type: "Electronics",
+                date: "Sept 2025",
+                image: ["assets/health-ai-1.jpg", "assets/health-ai-2.jpg"], 
+                links: []
+            },
+            {
+                name: "2D Game",
+                description: "Work In Progress project exploring procedural 2D mechanics.",
+                type: "Game Development",
+                date: "Nov 2024 - Present",
+                image: "assets/wip-game.jpg", 
+                links: []
+            },
+            {
+                name: "Vesmir: Tools and Ores",
+                description: "Minecraft mod adding custom planetary resources and high-tier equipment.",
+                type: "Game Development",
+                date: "2024",
+                image: ["assets/vesmir.jpg"],
+                links: [
+                    { label: "CurseForge", url: "https://www.curseforge.com/minecraft/mc-mods/vesmir-tools-and-ores" },
+                    { label: "Modrinth", url: "https://modrinth.com/mod/vesmir-tools-and-ores" }
+                ]
+            },
+            {
+                name: "AI Spritesheet Generator",
+                description: "Fine-tuned Stable Diffusion GAN for generating game-ready spritesheets.",
+                type: "Deep Learning",
+                date: "Dec 2022 - Present",
+                image: ["assets/spritesheet-ai-1.jpg", "assets/spritesheet-ai-2.jpg"],
+                links: [
+                    { label: "Huggingface", url: "https://huggingface.co/datasets/legend-sam/pokemon-sprite-sheet-dataset" },
+                    { label: "GitHub", url: "https://github.com/stellar-sam/pokemon-sprite-sheet-dataset" }
+                ]
+            },
+            {
+                name: "Roblox Game Portfolio",
+                description: "Collection of titles including 'The Burger Who Tried To Escape' and various Obbys.",
+                type: "Game Development",
+                date: "2022 - 2023",
+                image: ["assets/roblox1.jpg", "assets/roblox2.jpg", "assets/roblox3.jpg", "assets/roblox4.jpg", "assets/roblox5.jpg", "assets/roblox6.jpg"],
+                links: [
+                    { label: "Burger Escape", url: "https://www.roblox.com/games/16075139526/The-Burger-Who-Tried-To-Escape" },
+                    { label: "Racing Obby", url: "https://www.roblox.com/games/8439734884" },
+                    { label: "SpaceWar Obby", url: "https://www.roblox.com/games/15232449672" },
+                    { label: "Player's Unknown BattleSky", url: "https://www.roblox.com/games/15458080547" }
+                ]
+            },
+            {
+                name: "E-Cricket",
+                description: "Text-based sports simulator logic built in Python.",
+                type: "Game Development",
+                date: "2023",
+                image: ["assets/e-cricket.jpg"],
+                links: [{ label: "GitHub", url: "https://github.com/stellar-sam/e-cricket" }]
+            },
+            {
+                name: "3D Visuals: Laptop & Black Hole",
+                description: "Blender renders exploring hard-surface modeling and cosmic physics visualization.",
+                type: "3D Animation",
+                date: "2023",
+                video: ["assets/black-hole.mp4", "assets/laptop.mp4", "assets/sword.mp4"],
+                links: []
+            }
+        ];
+
+        const sliderState = {};
+
+        function render() {
+            const grid = document.getElementById('project-grid');
+            grid.innerHTML = projects.map((p, pIdx) => {
+                let mediaHtml = '';
+                const images = Array.isArray(p.image) ? p.image : (p.image ? [p.image] : []);
+                const videos = Array.isArray(p.video) ? p.video : (p.video ? [p.video] : []);
+                
+                const totalMedia = images.length || videos.length;
+                sliderState[pIdx] = { current: 0, total: totalMedia, isVideo: videos.length > 0 };
+
+                if (videos.length > 0) {
+                    mediaHtml = `
+                        <div class="media-container" id="container-${pIdx}" 
+                             onmousedown="handleDragStart(event, ${pIdx})"
+                             ontouchstart="handleDragStart(event, ${pIdx})"
+                             onclick="handleMediaClick(event, ${pIdx})">
+                            <video id="video-${pIdx}" 
+                                   src="${videos[0]}" 
+                                   loop muted playsinline 
+                                   onmouseenter="this.play()" 
+                                   onmouseleave="this.pause()"></video>
+                            ${videos.length > 1 ? `
+                                <div class="nav-btn nav-prev" onclick="event.stopPropagation(); navigateSlide(${pIdx}, -1)">❮</div>
+                                <div class="nav-btn nav-next" onclick="event.stopPropagation(); navigateSlide(${pIdx}, 1)">❯</div>
+                                <div class="slideshow-dots">
+                                    ${videos.map((v, i) => `
+                                        <div class="dot ${i === 0 ? 'active' : ''}" 
+                                             onclick="event.stopPropagation(); changeMedia(${pIdx}, ${i}, '${v}', true)"></div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>`;
+                } else if (images.length > 0) {
+                    mediaHtml = `
+                        <div class="media-container" id="container-${pIdx}" 
+                             onmousedown="handleDragStart(event, ${pIdx})"
+                             ontouchstart="handleDragStart(event, ${pIdx})"
+                             onclick="handleMediaClick(event, ${pIdx})">
+                            <img id="img-${pIdx}" src="${images[0]}" alt="${p.name}" loading="lazy" draggable="false">
+                            ${images.length > 1 ? `
+                                <div class="nav-btn nav-prev" onclick="event.stopPropagation(); navigateSlide(${pIdx}, -1)">❮</div>
+                                <div class="nav-btn nav-next" onclick="event.stopPropagation(); navigateSlide(${pIdx}, 1)">❯</div>
+                                <div class="slideshow-dots">
+                                    ${images.map((img, i) => `
+                                        <div class="dot ${i === 0 ? 'active' : ''}" 
+                                             onclick="event.stopPropagation(); changeMedia(${pIdx}, ${i}, '${img}', false)"></div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>`;
+                }
+
+                return `
+                <div class="project-card p-8 rounded-3xl flex flex-col h-full">
+                    ${mediaHtml}
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="category-tag">${p.type}</span>
+                        <span class="text-[10px] text-white/30 tracking-widest">${p.date}</span>
+                    </div>
+                    <h3 class="text-2xl font-light text-white mb-4 tracking-tight">${p.name}</h3>
+                    <p class="text-sm text-white/50 mb-8 leading-relaxed font-light flex-grow">${p.description}</p>
+                    <div class="flex flex-wrap gap-4 mt-auto">
+                        ${(p.links || []).map(l => `
+                            <a href="${l.url}" target="_blank" class="text-[9px] uppercase tracking-widest text-violet-400 hover:text-white border-b border-violet-400/20 hover:border-white transition-all">
+                                ${l.label}
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        window.changeMedia = function(pIdx, iIdx, src, isVideo) {
+            const state = sliderState[pIdx];
+            if (!state) return;
+
+            state.current = iIdx;
+            const mediaElem = isVideo ? document.getElementById(`video-${pIdx}`) : document.getElementById(`img-${pIdx}`);
+            const container = document.getElementById(`container-${pIdx}`);
+            if (!mediaElem || !container) return;
+            
+            const dots = container.querySelectorAll('.dot');
+            mediaElem.style.opacity = '0.3';
+            mediaElem.src = src;
+            
+            const finalize = () => {
+                mediaElem.style.opacity = '1';
+                dots.forEach((d, idx) => d.classList.toggle('active', idx === iIdx));
+                if (isVideo) mediaElem.play().catch(() => {}); // Play on switch if possible
+            };
+
+            if (isVideo) {
+                mediaElem.onloadeddata = finalize;
+            } else {
+                mediaElem.onload = finalize;
+            }
+        };
+
+        window.navigateSlide = function(pIdx, direction) {
+            const state = sliderState[pIdx];
+            const p = projects[pIdx];
+            if (!state) return;
+
+            const nextIndex = (state.current + direction + state.total) % state.total;
+            const nextSrc = state.isVideo ? p.video[nextIndex] : p.image[nextIndex];
+            changeMedia(pIdx, nextIndex, nextSrc, state.isVideo);
+        };
+
+        let startX = 0;
+        let dragOccurred = false;
+        let activeIdx = null;
+
+        window.handleDragStart = function(e, pIdx) {
+            startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            dragOccurred = false;
+            activeIdx = pIdx;
+
+            const onMove = (me) => {
+                if (activeIdx === null) return;
+                const currentX = me.type.includes('touch') ? me.touches[0].clientX : me.clientX;
+                const diff = startX - currentX;
+                if (Math.abs(diff) > 10) dragOccurred = true;
+                if (Math.abs(diff) > 80) {
+                    navigateSlide(activeIdx, diff > 0 ? 1 : -1);
+                    onEnd();
+                }
+            };
+
+            const onEnd = () => {
+                activeIdx = null;
+                window.removeEventListener('mousemove', onMove);
+                window.removeEventListener('mouseup', onEnd);
+                window.removeEventListener('touchmove', onMove);
+                window.removeEventListener('touchend', onEnd);
+            };
+
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onEnd);
+            window.addEventListener('touchmove', onMove, { passive: true });
+            window.addEventListener('touchend', onEnd);
+        };
+
+        window.handleMediaClick = function(e, pIdx) {
+            if (dragOccurred) return;
+            const p = projects[pIdx];
+            const state = sliderState[pIdx];
+            const currentSrc = state.isVideo ? p.video[state.current] : p.image[state.current];
+            openLightbox(currentSrc, state.isVideo);
+        };
+
+        window.openLightbox = function(src, isVideo = false) {
+            const lightbox = document.getElementById('lightbox');
+            const content = document.getElementById('lightbox-content');
+            
+            if (isVideo) {
+                content.innerHTML = `<video src="${src}" controls autoplay loop class="max-w-full max-h-full"></video>`;
+            } else {
+                content.innerHTML = `<img src="${src}" class="max-w-full max-h-full" onclick="event.stopPropagation()">`;
+            }
+            
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeLightbox = function() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.getElementById('lightbox-content').innerHTML = '';
+            document.body.style.overflow = 'auto';
+        };
+
+        // Star background logic
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = Array(200).fill().map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 1.5,
+                opacity: Math.random(),
+                speed: 0.005 + Math.random() * 0.015
+            }));
+        }
+
+        function animateBackground() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
+                s.opacity += s.speed;
+                if (s.opacity > 0.9 || s.opacity < 0.1) s.speed = -s.speed;
+            });
+            requestAnimationFrame(animateBackground);
+        }
+
+        let sw1 = false, sw2 = false, warpReady = false;
+        function toggleLogicGate() { document.getElementById('logic-egg').classList.toggle('hidden'); }
+
+        function eggSwitch(id) {
+            if (id === 1) sw1 = !sw1; else sw2 = !sw2;
+            document.getElementById(`sw${id}`).innerText = `Input_${id === 1 ? 'A' : 'B'}: ${eval('sw'+id) ? '1' : '0'}`;
+            const led = document.getElementById('egg-led');
+            const msg = document.getElementById('egg-msg');
+            const footer = document.getElementById('footer-warp-icon');
+
+            if (sw1 && sw2) {
+                warpReady = true;
+                led.style.backgroundColor = '#10b981';
+                led.style.boxShadow = '0 0 20px #10b981';
+                msg.innerText = "IGNITION READY";
+                footer.classList.replace('text-white/10', 'text-violet-400');
+            } else {
+                warpReady = false;
+                led.style.backgroundColor = '';
+                msg.innerText = "System Standby";
+                footer.classList.replace('text-violet-400', 'text-white/10');
+            }
+        }
+
+        function attemptWarp() {
+            if (warpReady) startVoyager();
+            else {
+                const icon = document.getElementById('footer-warp-icon');
+                icon.classList.add('locked-warp');
+                setTimeout(() => icon.classList.remove('locked-warp'), 500);
+            }
+        }
+
+        const gameOverlay = document.getElementById('game-overlay');
+        const gameCanvas = document.getElementById('game-canvas');
+        const gctx = gameCanvas.getContext('2d');
+        let gameActive = false, gStars = [], mX = 0, mY = 0, speed = 1;
+
+        function startVoyager() {
+            gameActive = true;
+            gameOverlay.style.display = 'block';
+            gameCanvas.width = window.innerWidth;
+            gameCanvas.height = window.innerHeight;
+            gStars = Array(600).fill().map(() => ({
+                x: (Math.random() - 0.5) * gameCanvas.width * 2,
+                y: (Math.random() - 0.5) * gameCanvas.height * 2,
+                z: Math.random() * gameCanvas.width
+            }));
+            loop();
+        }
+
+        function loop() {
+            if (!gameActive) return;
+            gctx.fillStyle = '#020617';
+            gctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
+            const cx = gameCanvas.width / 2, cy = gameCanvas.height / 2;
+            gStars.forEach(s => {
+                s.z -= 5 * speed;
+                if (s.z <= 0) s.z = gameCanvas.width;
+                const sx = (s.x - (mX - cx) * 0.4) * (gameCanvas.width / s.z) + cx;
+                const sy = (s.y - (mY - cy) * 0.4) * (gameCanvas.width / s.z) + cy;
+                const r = (1 - s.z / gameCanvas.width) * 4;
+                gctx.fillStyle = `rgba(167, 139, 250, ${1 - s.z / gameCanvas.width})`;
+                gctx.beginPath(); gctx.arc(sx, sy, r, 0, Math.PI * 2); gctx.fill();
+            });
+            requestAnimationFrame(loop);
+        }
+
+        window.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
+        window.addEventListener('mousedown', () => speed = 10);
+        window.addEventListener('mouseup', () => speed = 1);
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') { gameActive = false; gameOverlay.style.display = 'none'; closeLightbox(); } });
+        window.addEventListener('resize', resize);
+
+        resize(); animateBackground(); render();
+    </script>
+</body>
+</html>
