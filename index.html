@@ -278,7 +278,8 @@
                         <span class="text-white/40">LINKEDIN:</span> <a href="https://linkedin.com/in/sambhav-jain-cos" target="_blank" rel="noopener noreferrer" class="text-white hover:text-violet-400 transition">Profile</a>
                         <span class="text-white/40">GITHUB:</span> <a href="https://github.com/stellar-sam" target="_blank" rel="noopener noreferrer" class="text-white hover:text-violet-400 transition">stellar-sam</a>
                         <span class="text-white/40">DISCORD:</span> <span class="text-white">legend_sam</span>
-                    <!--    <span class="text-white/40">STATUS:</span> <span id="status-trigger" onclick="toggleLogicGate()" class="easter-egg-trigger text-emerald-400">[NOMINAL]</span> -->
+                        <!-- Restored Status Trigger -->
+                        <span class="text-white/40">STATUS:</span> <span id="status-trigger" onclick="toggleLogicGate()" class="easter-egg-trigger text-emerald-400">[NOMINAL]</span>
                     </div>
                 </div>
             </div>
@@ -501,7 +502,7 @@
             const finalize = () => {
                 mediaElem.style.opacity = '1';
                 dots.forEach((d, idx) => d.classList.toggle('active', idx === iIdx));
-                if (isVideo) mediaElem.play().catch(() => {}); // Play on switch if possible
+                if (isVideo) mediaElem.play().catch(() => {});
             };
 
             if (isVideo) {
@@ -584,7 +585,6 @@
             document.body.style.overflow = 'auto';
         };
 
-        // Star background logic
         const canvas = document.getElementById('star-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
@@ -617,7 +617,7 @@
 
         function eggSwitch(id) {
             if (id === 1) sw1 = !sw1; else sw2 = !sw2;
-            document.getElementById(`sw${id}`).innerText = `Input_${id === 1 ? 'A' : 'B'}: ${eval('sw'+id) ? '1' : '0'}`;
+            document.getElementById(`sw${id}`).innerText = `Input_${id === 1 ? 'A' : 'B'}: ${id === 1 ? (sw1 ? '1' : '0') : (sw2 ? '1' : '0')}`;
             const led = document.getElementById('egg-led');
             const msg = document.getElementById('egg-msg');
             const footer = document.getElementById('footer-warp-icon');
@@ -631,6 +631,7 @@
             } else {
                 warpReady = false;
                 led.style.backgroundColor = '';
+                led.style.boxShadow = '';
                 msg.innerText = "System Standby";
                 footer.classList.replace('text-violet-400', 'text-white/10');
             }
@@ -681,9 +682,9 @@
         }
 
         window.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
-        window.addEventListener('mousedown', () => speed = 10);
-        window.addEventListener('mouseup', () => speed = 1);
-        window.addEventListener('keydown', e => { if (e.key === 'Escape') { gameActive = false; gameOverlay.style.display = 'none'; closeLightbox(); } });
+        window.addEventListener('mousedown', () => { if(gameActive) speed = 10; });
+        window.addEventListener('mouseup', () => { if(gameActive) speed = 1; });
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') { gameActive = false; gameOverlay.style.display = 'none'; } });
         window.addEventListener('resize', resize);
 
         resize(); animateBackground(); render();
