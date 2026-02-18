@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sambhav Jain | Portfolio</title>
+    <!-- Helm Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Ccircle cx='12' cy='12' r='7'/%3E%3Cline x1='12' y1='1' x2='12' y2='5'/%3E%3Cline x1='12' y1='19' x2='12' y2='23'/%3E%3Cline x1='1' y1='12' x2='5' y2='12'/%3E%3Cline x1='19' y1='12' x2='23' y2='12'/%3E%3Cline x1='4.22' y1='4.22' x2='7.05' y2='7.05'/%3E%3Cline x1='16.95' y1='16.95' x2='19.78' y2='19.78'/%3E%3Cline x1='4.22' y1='19.78' x2='7.05' y2='16.95'/%3E%3Cline x1='16.95' y1='7.05' x2='19.78' y2='4.22'/%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -272,10 +274,10 @@
                 <div class="luxury-panel p-6 rounded-xl text-xs tracking-widest space-y-3 min-w-[280px]">
                     <div class="text-violet-400/50 uppercase border-b border-white/10 pb-2 mb-3">Communications</div>
                     <div class="grid grid-cols-2 gap-x-6 gap-y-2">
-                        <span class="text-white/40">MAIL:</span> <a href="mailto:your-email@example.com" class="text-white hover:text-violet-400 transition">Email</a>
-                        <span class="text-white/40">LINKEDIN:</span> <a href="https://linkedin.com/in/your-profile" class="text-white hover:text-violet-400 transition">Profile</a>
-                        <span class="text-white/40">GITHUB:</span> <a href="https://github.com/stellar-sam" class="text-white hover:text-violet-400 transition">stellar-sam</a>
-                        <span class="text-white/40">DISCORD:</span> <span class="text-white">your_id</span>
+                        <span class="text-white/40">MAIL:</span> <a href="mailto:js.jain.sam@gmail.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-violet-400 transition">Email</a>
+                        <span class="text-white/40">LINKEDIN:</span> <a href="https://linkedin.com/in/sambhav-jain-cos" target="_blank" rel="noopener noreferrer" class="text-white hover:text-violet-400 transition">Profile</a>
+                        <span class="text-white/40">GITHUB:</span> <a href="https://github.com/stellar-sam" target="_blank" rel="noopener noreferrer" class="text-white hover:text-violet-400 transition">stellar-sam</a>
+                        <span class="text-white/40">DISCORD:</span> <span class="text-white">legend_sam</span>
                         <span class="text-white/40">STATUS:</span> <span id="status-trigger" onclick="toggleLogicGate()" class="easter-egg-trigger text-emerald-400">[NOMINAL]</span>
                     </div>
                 </div>
@@ -389,7 +391,7 @@
                 links: [{ label: "GitHub", url: "https://github.com/stellar-sam/e-cricket" }]
             },
             {
-                name: "3D Visuals: Laptop & Black Hole",
+                name: "3D Visuals: Laptop, Sword & Black Hole",
                 description: "Blender renders exploring hard-surface modeling and cosmic physics visualization.",
                 type: "3D Animation",
                 date: "2023",
@@ -463,7 +465,7 @@
                     <p class="text-sm text-white/50 mb-8 leading-relaxed font-light flex-grow">${p.description}</p>
                     <div class="flex flex-wrap gap-4 mt-auto">
                         ${(p.links || []).map(l => `
-                            <a href="${l.url}" target="_blank" class="text-[9px] uppercase tracking-widest text-violet-400 hover:text-white border-b border-violet-400/20 hover:border-white transition-all">
+                            <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="text-[9px] uppercase tracking-widest text-violet-400 hover:text-white border-b border-violet-400/20 hover:border-white transition-all">
                                 ${l.label}
                             </a>
                         `).join('')}
