@@ -62,7 +62,6 @@
             transform: translateY(-8px);
         }
 
-        /* Improved Media Container: Better aspect ratio and contain fit */
         .media-container {
             width: 100%;
             aspect-ratio: 16 / 10;
@@ -79,9 +78,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .media-container:active {
-            cursor: grabbing;
-        }
+        .media-container:active { cursor: grabbing; }
 
         .media-container img, .media-container video {
             max-width: 100%;
@@ -93,114 +90,61 @@
             pointer-events: none;
         }
 
-        .project-card:hover .media-container img, .project-card:hover .media-container video {
-            transform: scale(1.02);
-        }
-
-        /* Nav Buttons */
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            z-index: 20;
-            opacity: 0;
-            transition: all 0.3s;
-            cursor: pointer;
-            pointer-events: auto;
-        }
-
-        .media-container:hover .nav-btn {
-            opacity: 1;
-        }
-
-        .nav-btn:hover {
-            background: var(--luxury-purple);
-            border-color: var(--luxury-purple);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .nav-prev { left: 12px; }
-        .nav-next { right: 12px; }
-
-        /* Slideshow Controls */
-        .slideshow-dots {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 10;
-            background: rgba(0,0,0,0.5);
-            padding: 6px 12px;
-            border-radius: 20px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .dot {
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .dot.active {
-            background: var(--luxury-purple);
-            transform: scale(1.4);
-            box-shadow: 0 0 8px var(--luxury-purple);
-        }
-
-        /* Lightbox UI */
-        #lightbox {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 6, 23, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            cursor: zoom-out;
-        }
-
-        #lightbox img, #lightbox video {
-            max-width: 90vw;
-            max-height: 85vh;
-            border-radius: 8px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            cursor: default;
-        }
-
         #game-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: black;
             z-index: 1000;
-            cursor: crosshair;
         }
 
-        .easter-egg-trigger {
-            cursor: pointer;
-            transition: all 0.3s;
+        #scroll-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
-        .easter-egg-trigger:hover {
-            color: var(--luxury-purple);
-            filter: drop-shadow(0 0 8px var(--luxury-purple));
+
+        .ancient-scroll {
+            background: #fdf6e3;
+            color: #2c241a;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 100px rgba(0,0,0,0.1);
+            position: relative;
+            font-family: 'Times New Roman', serif;
+            border-left: 15px solid #8b4513;
+            border-right: 15px solid #8b4513;
+            transform: rotate(-0.5deg);
+            max-height: 80vh;
+            overflow-y: auto;
         }
+
+        .ancient-scroll h2 {
+            font-size: 1.5rem;
+            text-align: center;
+            border-bottom: 1px double #8b4513;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .ancient-scroll p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .easter-egg-trigger { cursor: pointer; transition: all 0.3s; }
+        .easter-egg-trigger:hover { color: var(--luxury-purple); filter: drop-shadow(0 0 8px var(--luxury-purple)); }
 
         .category-tag {
             font-size: 0.65rem;
@@ -218,12 +162,8 @@
             25% { transform: translateX(-2px); }
             75% { transform: translateX(2px); }
         }
-        .locked-warp {
-            color: #ef4444 !important;
-            animation: shake 0.2s infinite;
-        }
+        .locked-warp { color: #ef4444 !important; animation: shake 0.2s infinite; }
 
-        /* Minimal Helm Styling */
         #footer-warp-icon svg {
             width: 48px;
             height: 48px;
@@ -232,13 +172,73 @@
             stroke-width: 1.5;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        #footer-warp-icon:hover svg {
-            transform: rotate(45deg);
+        #footer-warp-icon:hover svg { transform: rotate(45deg); }
+
+        .gate-box {
+            padding: 4px 10px;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 4px;
+            font-size: 9px;
+            color: #10b981;
+            text-transform: uppercase;
+            min-width: 60px;
+            text-align: center;
         }
 
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: var(--space-black); }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        
+        .game-ui {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            pointer-events: none;
+            z-index: 1001;
+            font-family: monospace;
+        }
+
+        #alert-msg {
+            position: absolute;
+            bottom: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fbbf24;
+            font-weight: bold;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            display: none;
+            animation: pulse 1s infinite;
+            pointer-events: none;
+            text-shadow: 0 0 15px #fbbf24;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        .game-over-modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(2, 6, 23, 0.95);
+            border: 1px solid #ef4444;
+            padding: 2rem;
+            border-radius: 1rem;
+            z-index: 1005;
+            text-align: center;
+        }
+
+        #pointer-notice {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            color: rgba(255,255,255,0.3);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
@@ -247,18 +247,43 @@
     <div class="nebula-bg"></div>
 
     <div id="game-overlay">
-        <div class="absolute top-8 left-8 text-violet-400 font-serif text-lg tracking-widest z-[1001]">
-            ESTABLISHING WARP... <br>
-            <span class="text-xs opacity-50">ESC TO DISEMBARK</span>
+        <div class="game-ui flex flex-col gap-2">
+            <div class="text-violet-400 text-lg tracking-widest uppercase" id="voyage-status">ESTABLISHING WARP...</div>
+            <div class="flex items-center gap-4">
+                <div class="text-[10px] text-white/50">HULL INTEGRITY:</div>
+                <div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div id="hull-bar" class="h-full bg-emerald-500 transition-all duration-300 w-full"></div>
+                </div>
+            </div>
+            <div class="text-[10px] text-white/50 uppercase tracking-tighter">
+                DEBRIS NEUTRALIZED: <span id="kill-counter" class="text-violet-400">0</span>
+            </div>
+            <div class="text-[10px] text-white/50">DISTANCE: <span id="dist-counter" class="text-white">0</span> LY</div>
+            <div class="text-[10px] text-white/40 mt-4">ESC: EXIT • [SPACE]: FIRE LASER • [W]: WARP • CLICK: BOOST</div>
         </div>
+        <div id="pointer-notice">Click to lock mouse</div>
+        <div id="alert-msg">PLANET APPROACHING - PRESS [W] TO WARP</div>
         <canvas id="game-canvas"></canvas>
     </div>
 
-    <!-- Lightbox Modal -->
-    <div id="lightbox" onclick="closeLightbox()">
-        <div class="absolute top-6 right-6 text-white/50 hover:text-white transition cursor-pointer text-2xl">✕</div>
-        <div id="lightbox-content" class="flex items-center justify-center p-4">
-            <!-- Media injected here -->
+    <div id="game-over" class="game-over-modal">
+        <h2 class="text-3xl text-red-500 font-bold mb-4 uppercase tracking-widest">Voyage Failed</h2>
+        <p class="text-white/60 mb-6 text-sm">Your ship was destroyed by cosmic debris.</p>
+        <button onclick="location.reload()" class="bg-red-500/20 border border-red-500 text-red-500 px-8 py-2 text-xs uppercase tracking-widest hover:bg-red-500 hover:text-white transition">Try Again</button>
+    </div>
+
+    <!-- Scroll Overlay -->
+    <div id="scroll-overlay">
+        <div class="ancient-scroll">
+            <div class="text-[10px] text-amber-900/60 mb-2 uppercase tracking-widest font-bold">Scientific Archive Unlocked</div>
+            <h2 id="scroll-title">Subject: Physics</h2>
+            <div id="scroll-loading" class="text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-amber-900"></div>
+            </div>
+            <p id="scroll-body" class="mb-6"></p>
+            <div class="mt-8 pt-4 border-t border-amber-900/10 text-center">
+                <span class="bg-amber-900/10 text-amber-900 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest animate-pulse">Press [X] to Close</span>
+            </div>
         </div>
     </div>
 
@@ -278,20 +303,43 @@
                         <span class="text-white/40">LINKEDIN:</span> <a href="https://linkedin.com/in/sambhav-jain-cos" target="_blank" rel="noopener noreferrer" class="text-white hover:text-violet-400 transition">Profile</a>
                         <span class="text-white/40">GITHUB:</span> <a href="https://github.com/stellar-sam" target="_blank" rel="noopener noreferrer" class="text-white hover:text-violet-400 transition">stellar-sam</a>
                         <span class="text-white/40">DISCORD:</span> <span class="text-white">legend_sam</span>
-                        <!-- Restored Status Trigger -->
                         <span class="text-white/40">STATUS:</span> <span id="status-trigger" onclick="toggleLogicGate()" class="easter-egg-trigger text-emerald-400">[NOMINAL]</span>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Logic Gate Easter Egg -->
         <div id="logic-egg" class="hidden max-w-6xl mx-auto mt-12 luxury-panel p-8 rounded-2xl border-emerald-500/20">
-            <div class="flex flex-wrap items-center gap-8 justify-center">
-                <span class="text-xs text-emerald-500 tracking-[0.3em] font-light">IGNITION_SEQUENCE</span>
-                <button onclick="eggSwitch(1)" id="sw1" class="border border-emerald-500/30 px-6 py-2 text-xs rounded-full hover:bg-emerald-500/10 transition-all uppercase tracking-widest">Input_A: 0</button>
-                <button onclick="eggSwitch(2)" id="sw2" class="border border-emerald-500/30 px-6 py-2 text-xs rounded-full hover:bg-emerald-500/10 transition-all uppercase tracking-widest">Input_B: 0</button>
-                <div id="egg-led" class="w-4 h-4 rounded-full bg-emerald-950 border border-emerald-500/50"></div>
-                <span id="egg-msg" class="text-[10px] text-emerald-600 tracking-widest uppercase">System Standby</span>
+            <div class="flex flex-col gap-6">
+                <div class="flex justify-between items-center border-b border-emerald-500/10 pb-4">
+                    <div class="flex flex-col">
+                        <span class="text-xs text-emerald-500 tracking-[0.3em] font-light uppercase">System Ignition Circuit</span>
+                        <span id="egg-msg" class="text-[10px] text-emerald-600 tracking-widest uppercase mt-1">Status: Encrypted</span>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap items-center justify-center gap-4 md:gap-8 py-4">
+                    <div class="flex flex-col gap-3">
+                        <button onclick="eggSwitch(0)" id="sw0" class="border border-emerald-500/30 px-6 py-2 text-[10px] rounded-md hover:bg-emerald-500/10 transition-all uppercase tracking-widest">In_A: 0</button>
+                        <button onclick="eggSwitch(1)" id="sw1" class="border border-emerald-500/30 px-6 py-2 text-[10px] rounded-md hover:bg-emerald-500/10 transition-all uppercase tracking-widest">In_B: 0</button>
+                        <button onclick="eggSwitch(2)" id="sw2" class="border border-emerald-500/30 px-6 py-2 text-[10px] rounded-md hover:bg-emerald-500/10 transition-all uppercase tracking-widest">In_C: 0</button>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-[1px] bg-emerald-500/30"></div>
+                        <div id="gate-1-ui" class="gate-box">---</div>
+                        <div class="w-8 h-[1px] bg-emerald-500/30"></div>
+                        <div id="gate-2-ui" class="gate-box">---</div>
+                        <div class="w-8 h-[1px] bg-emerald-500/30"></div>
+                        <div id="gate-3-ui" class="gate-box">---</div>
+                        <div class="w-8 h-[1px] bg-emerald-500/30"></div>
+                    </div>
+                    <div class="flex flex-col items-center gap-2">
+                        <div id="egg-led" class="w-6 h-6 rounded-full bg-emerald-950 border border-emerald-500/50 shadow-inner transition-all duration-300"></div>
+                        <span class="text-[9px] text-emerald-500/50 uppercase">Ignition</span>
+                    </div>
+                </div>
+                <div class="text-center"><p id="logic-formula" class="text-[9px] text-white/20 italic font-mono"></p></div>
             </div>
         </div>
     </header>
@@ -302,35 +350,27 @@
                 <h2 class="text-3xl font-light tracking-[0.4em] text-white uppercase">Portfolio</h2>
                 <div class="h-[1px] flex-1 bg-gradient-to-r from-violet-500/30 to-transparent"></div>
             </div>
-            
-            <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
-                <!-- Projects -->
-            </div>
+            <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10"></div>
         </section>
     </main>
 
     <footer class="mt-32 py-20 border-t border-white/5 text-center">
         <div class="max-w-6xl mx-auto px-6 flex flex-col items-center">
-            <div id="footer-warp-icon" onclick="attemptWarp()" class="easter-egg-trigger text-white/10 mb-8 transition-all duration-700" title="Ignition Required">
+            <div id="footer-warp-icon" onclick="attemptWarp()" class="easter-egg-trigger text-white/10 mb-8 transition-all duration-700" title="Warp Drive: Locked">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="4" />
-                    <circle cx="12" cy="12" r="7" />
-                    <line x1="12" y1="1" x2="12" y2="5" />
-                    <line x1="12" y1="19" x2="12" y2="23" />
-                    <line x1="1" y1="12" x2="5" y2="12" />
-                    <line x1="19" y1="12" x2="23" y2="12" />
-                    <line x1="4.22" y1="4.22" x2="7.05" y2="7.05" />
-                    <line x1="16.95" y1="16.95" x2="19.78" y2="19.78" />
-                    <line x1="4.22" y1="19.78" x2="7.05" y2="16.95" />
-                    <line x1="16.95" y1="7.05" x2="19.78" y2="4.22" />
+                    <circle cx="12" cy="12" r="4" /><circle cx="12" cy="12" r="7" />
+                    <line x1="12" y1="1" x2="12" y2="5" /><line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="1" y1="12" x2="5" y2="12" /><line x1="19" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="4.22" x2="7.05" y2="7.05" /><line x1="16.95" y1="16.95" x2="19.78" y2="19.78" />
+                    <line x1="4.22" y1="19.78" x2="7.05" y2="16.95" /><line x1="16.95" y1="7.05" x2="19.78" y2="4.22" />
                 </svg>
             </div>
             <p class="text-white/20 text-xs tracking-[0.5em] uppercase mb-2">Sambhav Jain // Earth // 2026</p>
-            <p class="text-[9px] text-white/10 tracking-widest uppercase">Exploration provided by logic-gate circuits</p>
         </div>
     </footer>
 
     <script>
+        const apiKey = "";
         const projects = [
             {
                 name: "Health Monitoring using AI & Sensors",
@@ -421,8 +461,6 @@
             },
         ];
 
-        const sliderState = {};
-
         function render() {
             const grid = document.getElementById('project-grid');
             grid.innerHTML = projects.map((p, pIdx) => {
@@ -430,273 +468,334 @@
                 const images = Array.isArray(p.image) ? p.image : (p.image ? [p.image] : []);
                 const videos = Array.isArray(p.video) ? p.video : (p.video ? [p.video] : []);
                 
-                const totalMedia = images.length || videos.length;
-                sliderState[pIdx] = { current: 0, total: totalMedia, isVideo: videos.length > 0 };
-
                 if (videos.length > 0) {
-                    mediaHtml = `
-                        <div class="media-container" id="container-${pIdx}" 
-                             onmousedown="handleDragStart(event, ${pIdx})"
-                             ontouchstart="handleDragStart(event, ${pIdx})"
-                             onclick="handleMediaClick(event, ${pIdx})">
-                            <video id="video-${pIdx}" 
-                                   src="${videos[0]}" 
-                                   loop muted playsinline 
-                                   onmouseenter="this.play()" 
-                                   onmouseleave="this.pause()"></video>
-                            ${videos.length > 1 ? `
-                                <div class="nav-btn nav-prev" onclick="event.stopPropagation(); navigateSlide(${pIdx}, -1)">❮</div>
-                                <div class="nav-btn nav-next" onclick="event.stopPropagation(); navigateSlide(${pIdx}, 1)">❯</div>
-                                <div class="slideshow-dots">
-                                    ${videos.map((v, i) => `
-                                        <div class="dot ${i === 0 ? 'active' : ''}" 
-                                             onclick="event.stopPropagation(); changeMedia(${pIdx}, ${i}, '${v}', true)"></div>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-                        </div>`;
+                    mediaHtml = `<div class="media-container"><video src="${videos[0]}" loop muted playsinline onmouseenter="this.play()" onmouseleave="this.pause()"></video></div>`;
                 } else if (images.length > 0) {
-                    mediaHtml = `
-                        <div class="media-container" id="container-${pIdx}" 
-                             onmousedown="handleDragStart(event, ${pIdx})"
-                             ontouchstart="handleDragStart(event, ${pIdx})"
-                             onclick="handleMediaClick(event, ${pIdx})">
-                            <img id="img-${pIdx}" src="${images[0]}" alt="${p.name}" loading="lazy" draggable="false">
-                            ${images.length > 1 ? `
-                                <div class="nav-btn nav-prev" onclick="event.stopPropagation(); navigateSlide(${pIdx}, -1)">❮</div>
-                                <div class="nav-btn nav-next" onclick="event.stopPropagation(); navigateSlide(${pIdx}, 1)">❯</div>
-                                <div class="slideshow-dots">
-                                    ${images.map((img, i) => `
-                                        <div class="dot ${i === 0 ? 'active' : ''}" 
-                                             onclick="event.stopPropagation(); changeMedia(${pIdx}, ${i}, '${img}', false)"></div>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
-                        </div>`;
+                    mediaHtml = `<div class="media-container"><img src="${images[0]}" alt="${p.name}" loading="lazy"></div>`;
                 }
 
-                return `
-                <div class="project-card p-8 rounded-3xl flex flex-col h-full">
+                return `<div class="project-card p-8 rounded-3xl flex flex-col h-full">
                     ${mediaHtml}
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="category-tag">${p.type}</span>
-                        <span class="text-[10px] text-white/30 tracking-widest">${p.date}</span>
-                    </div>
+                    <div class="flex justify-between items-center mb-4"><span class="category-tag">${p.type}</span><span class="text-[10px] text-white/30 tracking-widest">${p.date}</span></div>
                     <h3 class="text-2xl font-light text-white mb-4 tracking-tight">${p.name}</h3>
                     <p class="text-sm text-white/50 mb-8 leading-relaxed font-light flex-grow">${p.description}</p>
-                    <div class="flex flex-wrap gap-4 mt-auto">
-                        ${(p.links || []).map(l => `
-                            <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="text-[9px] uppercase tracking-widest text-violet-400 hover:text-white border-b border-violet-400/20 hover:border-white transition-all">
-                                ${l.label}
-                            </a>
-                        `).join('')}
-                    </div>
-                </div>
-            `}).join('');
+                    <div class="flex flex-wrap gap-4 mt-auto">${(p.links || []).map(l => `<a href="${l.url}" target="_blank" rel="noopener noreferrer" class="text-[9px] uppercase tracking-widest text-violet-400 hover:text-white border-b border-violet-400/20 hover:border-white transition-all">${l.label}</a>`).join('')}</div>
+                </div>`;
+            }).join('');
         }
 
-        window.changeMedia = function(pIdx, iIdx, src, isVideo) {
-            const state = sliderState[pIdx];
-            if (!state) return;
-
-            state.current = iIdx;
-            const mediaElem = isVideo ? document.getElementById(`video-${pIdx}`) : document.getElementById(`img-${pIdx}`);
-            const container = document.getElementById(`container-${pIdx}`);
-            if (!mediaElem || !container) return;
+        // --- GEMINI KNOWLEDGE SYSTEM ---
+        async function fetchAncientKnowledge() {
+            const fields = ["Quantum Physics", "Organic Chemistry", "Evolutionary Biology", "History of Civilizations", "Modern Technology", "Classical Literature", "Discrete Mathematics"];
+            const selectedField = fields[Math.floor(Math.random() * fields.length)];
             
-            const dots = container.querySelectorAll('.dot');
-            mediaElem.style.opacity = '0.3';
-            mediaElem.src = src;
-            
-            const finalize = () => {
-                mediaElem.style.opacity = '1';
-                dots.forEach((d, idx) => d.classList.toggle('active', idx === iIdx));
-                if (isVideo) mediaElem.play().catch(() => {});
-            };
+            const prompt = `Write an educational summary about ${selectedField}. 
+            Format: Title: [Topic Name] followed by a 3-paragraph factual explanation. 
+            Tone: Academic but accessible. No poetry. Under 150 words total.`;
 
-            if (isVideo) {
-                mediaElem.onloadeddata = finalize;
-            } else {
-                mediaElem.onload = finalize;
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await response.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication with the archives failed.";
+                
+                // Simple parsing for title and body
+                const titleMatch = text.match(/Title:\s*(.*)/);
+                const title = titleMatch ? titleMatch[1] : selectedField;
+                const body = text.replace(/Title:.*\n?/, '').trim();
+
+                document.getElementById('scroll-title').innerText = title;
+                document.getElementById('scroll-body').innerText = body;
+            } catch (err) {
+                document.getElementById('scroll-body').innerText = "System error: Failed to retrieve data from the central archive.";
+            } finally {
+                document.getElementById('scroll-loading').style.display = 'none';
             }
-        };
-
-        window.navigateSlide = function(pIdx, direction) {
-            const state = sliderState[pIdx];
-            const p = projects[pIdx];
-            if (!state) return;
-
-            const nextIndex = (state.current + direction + state.total) % state.total;
-            const nextSrc = state.isVideo ? p.video[nextIndex] : p.image[nextIndex];
-            changeMedia(pIdx, nextIndex, nextSrc, state.isVideo);
-        };
-
-        let startX = 0;
-        let dragOccurred = false;
-        let activeIdx = null;
-
-        window.handleDragStart = function(e, pIdx) {
-            startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-            dragOccurred = false;
-            activeIdx = pIdx;
-
-            const onMove = (me) => {
-                if (activeIdx === null) return;
-                const currentX = me.type.includes('touch') ? me.touches[0].clientX : me.clientX;
-                const diff = startX - currentX;
-                if (Math.abs(diff) > 10) dragOccurred = true;
-                if (Math.abs(diff) > 80) {
-                    navigateSlide(activeIdx, diff > 0 ? 1 : -1);
-                    onEnd();
-                }
-            };
-
-            const onEnd = () => {
-                activeIdx = null;
-                window.removeEventListener('mousemove', onMove);
-                window.removeEventListener('mouseup', onEnd);
-                window.removeEventListener('touchmove', onMove);
-                window.removeEventListener('touchend', onEnd);
-            };
-
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('mouseup', onEnd);
-            window.addEventListener('touchmove', onMove, { passive: true });
-            window.addEventListener('touchend', onEnd);
-        };
-
-        window.handleMediaClick = function(e, pIdx) {
-            if (dragOccurred) return;
-            const p = projects[pIdx];
-            const state = sliderState[pIdx];
-            const currentSrc = state.isVideo ? p.video[state.current] : p.image[state.current];
-            openLightbox(currentSrc, state.isVideo);
-        };
-
-        window.openLightbox = function(src, isVideo = false) {
-            const lightbox = document.getElementById('lightbox');
-            const content = document.getElementById('lightbox-content');
-            
-            if (isVideo) {
-                content.innerHTML = `<video src="${src}" controls autoplay loop class="max-w-full max-h-full"></video>`;
-            } else {
-                content.innerHTML = `<img src="${src}" class="max-w-full max-h-full" onclick="event.stopPropagation()">`;
-            }
-            
-            lightbox.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        };
-
-        window.closeLightbox = function() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.style.display = 'none';
-            document.getElementById('lightbox-content').innerHTML = '';
-            document.body.style.overflow = 'auto';
-        };
-
-        const canvas = document.getElementById('star-canvas');
-        const ctx = canvas.getContext('2d');
-        let stars = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            stars = Array(200).fill().map(() => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 1.5,
-                opacity: Math.random(),
-                speed: 0.005 + Math.random() * 0.015
-            }));
         }
 
-        function animateBackground() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(s => {
-                ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
-                s.opacity += s.speed;
-                if (s.opacity > 0.9 || s.opacity < 0.1) s.speed = -s.speed;
-            });
-            requestAnimationFrame(animateBackground);
+        function closeScroll() {
+            document.getElementById('scroll-overlay').style.display = 'none';
+            gamePaused = false;
+            // Re-request pointer lock when returning to game
+            gameCanvas.requestPointerLock();
         }
 
-        let sw1 = false, sw2 = false, warpReady = false;
-        function toggleLogicGate() { document.getElementById('logic-egg').classList.toggle('hidden'); }
+        // --- LOGIC GATE EASTER EGG ---
+        const GATES = { AND: (a, b) => a && b, OR: (a, b) => a || b, XOR: (a, b) => a !== b };
+        const gateNames = Object.keys(GATES);
+        let activeGates = [], logicInputs = [false, false, false], warpReady = false;
 
-        function eggSwitch(id) {
-            if (id === 1) sw1 = !sw1; else sw2 = !sw2;
-            document.getElementById(`sw${id}`).innerText = `Input_${id === 1 ? 'A' : 'B'}: ${id === 1 ? (sw1 ? '1' : '0') : (sw2 ? '1' : '0')}`;
+        function randomizeGates() {
+            activeGates = [gateNames[Math.floor(Math.random() * 3)], gateNames[Math.floor(Math.random() * 3)], gateNames[Math.floor(Math.random() * 3)]];
+            document.getElementById('gate-1-ui').innerText = activeGates[0];
+            document.getElementById('gate-2-ui').innerText = activeGates[1];
+            document.getElementById('gate-3-ui').innerText = activeGates[2];
+            document.getElementById('logic-formula').innerText = `Circuit: (A ${activeGates[0]} B) ${activeGates[1]} (B ${activeGates[2]} C)`;
+            updateCircuit();
+        }
+
+        function eggSwitch(idx) {
+            logicInputs[idx] = !logicInputs[idx];
+            document.getElementById(`sw${idx}`).innerText = `In_${String.fromCharCode(65+idx)}: ${logicInputs[idx] ? '1' : '0'}`;
+            updateCircuit();
+        }
+
+        function updateCircuit() {
+            const n1 = GATES[activeGates[0]](logicInputs[0], logicInputs[1]);
+            const n2 = GATES[activeGates[2]](logicInputs[1], logicInputs[2]);
+            const res = GATES[activeGates[1]](n1, n2);
             const led = document.getElementById('egg-led');
-            const msg = document.getElementById('egg-msg');
             const footer = document.getElementById('footer-warp-icon');
-
-            if (sw1 && sw2) {
-                warpReady = true;
-                led.style.backgroundColor = '#10b981';
-                led.style.boxShadow = '0 0 20px #10b981';
-                msg.innerText = "IGNITION READY";
-                footer.classList.replace('text-white/10', 'text-violet-400');
-            } else {
-                warpReady = false;
-                led.style.backgroundColor = '';
-                led.style.boxShadow = '';
-                msg.innerText = "System Standby";
-                footer.classList.replace('text-violet-400', 'text-white/10');
-            }
+            warpReady = res;
+            led.style.backgroundColor = res ? '#10b981' : '';
+            led.style.boxShadow = res ? '0 0 20px #10b981' : '';
+            footer.classList.toggle('text-violet-400', res);
+            footer.classList.toggle('text-white/10', !res);
         }
 
-        function attemptWarp() {
-            if (warpReady) startVoyager();
-            else {
-                const icon = document.getElementById('footer-warp-icon');
-                icon.classList.add('locked-warp');
-                setTimeout(() => icon.classList.remove('locked-warp'), 500);
-            }
-        }
+        function toggleLogicGate() { document.getElementById('logic-egg').classList.toggle('hidden'); randomizeGates(); }
 
+        // --- VOID VOYAGER GAME ---
         const gameOverlay = document.getElementById('game-overlay');
         const gameCanvas = document.getElementById('game-canvas');
         const gctx = gameCanvas.getContext('2d');
-        let gameActive = false, gStars = [], mX = 0, mY = 0, speed = 1;
+        
+        let gameActive = false, gamePaused = false;
+        let gStars = [], gAsteroids = [], gPlanets = [], gLasers = [];
+        let mX = 0, mY = 0, speed = 1, distance = 0, hull = 100, kills = 0;
+        let manualWarpRequested = false, laserCooldown = 0;
+
+        // Pointer Lock State Handling
+        document.addEventListener('pointerlockchange', () => {
+            if (document.pointerLockElement === gameCanvas) {
+                document.getElementById('pointer-notice').style.display = 'none';
+            } else {
+                if (gameActive && !gamePaused) {
+                    document.getElementById('pointer-notice').style.display = 'block';
+                }
+            }
+        });
 
         function startVoyager() {
-            gameActive = true;
+            gameActive = true; gamePaused = false; hull = 100; distance = 0; kills = 0;
             gameOverlay.style.display = 'block';
-            gameCanvas.width = window.innerWidth;
-            gameCanvas.height = window.innerHeight;
-            gStars = Array(600).fill().map(() => ({
-                x: (Math.random() - 0.5) * gameCanvas.width * 2,
-                y: (Math.random() - 0.5) * gameCanvas.height * 2,
-                z: Math.random() * gameCanvas.width
-            }));
-            loop();
+            document.getElementById('game-over').style.display = 'none';
+            gameCanvas.width = window.innerWidth; gameCanvas.height = window.innerHeight;
+            
+            // Set initial mouse to center
+            mX = gameCanvas.width / 2;
+            mY = gameCanvas.height / 2;
+
+            gStars = Array(400).fill().map(() => ({ x: (Math.random()-0.5)*gameCanvas.width*2, y: (Math.random()-0.5)*gameCanvas.height*2, z: Math.random()*gameCanvas.width }));
+            gAsteroids = []; gPlanets = []; gLasers = [];
+            document.getElementById('hull-bar').style.width = '100%';
+            document.getElementById('hull-bar').className = "h-full bg-emerald-500 transition-all duration-300 w-full";
+            document.getElementById('voyage-status').innerText = "VOYAGE ACTIVE";
+
+            // Request initial lock
+            gameCanvas.requestPointerLock();
+            gameLoop();
         }
 
-        function loop() {
+        function spawnAsteroid() {
+            if (gAsteroids.length > 25) return;
+            const isInFront = Math.random() < 0.4;
+            const xRange = isInFront ? 200 : gameCanvas.width * 2;
+            const yRange = isInFront ? 200 : gameCanvas.height * 2;
+            
+            gAsteroids.push({ 
+                x: (Math.random()-0.5) * xRange, 
+                y: (Math.random()-0.5) * yRange, 
+                z: gameCanvas.width, 
+                size: 20 + Math.random() * 40,
+                hp: 1
+            });
+        }
+
+        function fireLaser() {
+            if (laserCooldown > 0) return;
+            gLasers.push({ t: 10 });
+            laserCooldown = 15;
+            
+            const cx = gameCanvas.width / 2, cy = gameCanvas.height / 2;
+            gAsteroids.forEach(a => {
+                const ax = (a.x - (mX-cx)*0.5) * (gameCanvas.width/a.z) + cx;
+                const ay = (a.y - (mY-cy)*0.5) * (gameCanvas.width/a.z) + cy;
+                const ar = (1-a.z/gameCanvas.width)*a.size;
+                if (a.z > 0 && Math.abs(ax-cx) < ar * 1.5 && Math.abs(ay-cy) < ar * 1.5) {
+                    a.hp = 0;
+                    kills++;
+                    document.getElementById('kill-counter').innerText = kills;
+                }
+            });
+        }
+
+        function spawnPlanet() {
+            if (gPlanets.length > 0) return;
+            gPlanets.push({ x: (Math.random()-0.5)*gameCanvas.width, y: (Math.random()-0.5)*gameCanvas.height, z: gameCanvas.width, size: 120, color: `hsl(${Math.random()*360}, 50%, 40%)` });
+        }
+
+        function gameLoop() {
             if (!gameActive) return;
-            gctx.fillStyle = '#020617';
+            if (gamePaused) { requestAnimationFrame(gameLoop); return; }
+
+            gctx.fillStyle = '#010409';
             gctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height);
             const cx = gameCanvas.width / 2, cy = gameCanvas.height / 2;
+
+            if (Math.random() < 0.12) spawnAsteroid();
+            if (Math.random() < 0.003) spawnPlanet();
+            if (laserCooldown > 0) laserCooldown--;
+
+            distance += (speed * 0.015);
+            document.getElementById('dist-counter').innerText = Math.floor(distance);
+
+            // Draw Stars
             gStars.forEach(s => {
-                s.z -= 5 * speed;
-                if (s.z <= 0) s.z = gameCanvas.width;
-                const sx = (s.x - (mX - cx) * 0.4) * (gameCanvas.width / s.z) + cx;
-                const sy = (s.y - (mY - cy) * 0.4) * (gameCanvas.width / s.z) + cy;
-                const r = (1 - s.z / gameCanvas.width) * 4;
-                gctx.fillStyle = `rgba(167, 139, 250, ${1 - s.z / gameCanvas.width})`;
-                gctx.beginPath(); gctx.arc(sx, sy, r, 0, Math.PI * 2); gctx.fill();
+                s.z -= 6 * speed; if (s.z <= 0) s.z = gameCanvas.width;
+                const sx = (s.x - (mX-cx)*0.2) * (gameCanvas.width/s.z) + cx;
+                const sy = (s.y - (mY-cy)*0.2) * (gameCanvas.width/s.z) + cy;
+                const r = (1-s.z/gameCanvas.width)*2.5;
+                gctx.fillStyle = `rgba(167, 139, 250, ${1-s.z/gameCanvas.width})`;
+                gctx.beginPath(); gctx.arc(sx, sy, r, 0, Math.PI*2); gctx.fill();
             });
-            requestAnimationFrame(loop);
+
+            // Draw Lasers
+            gLasers = gLasers.filter(l => {
+                l.t--;
+                gctx.strokeStyle = `rgba(124, 58, 237, ${l.t/10})`;
+                gctx.lineWidth = 4;
+                gctx.beginPath();
+                gctx.moveTo(cx, cy + 100);
+                gctx.lineTo(cx, cy);
+                gctx.stroke();
+                return l.t > 0;
+            });
+
+            // Draw Asteroids
+            gAsteroids = gAsteroids.filter(a => {
+                if (a.hp <= 0) return false;
+                a.z -= 18 * speed;
+                const ax = (a.x - (mX-cx)*0.5) * (gameCanvas.width/a.z) + cx;
+                const ay = (a.y - (mY-cy)*0.5) * (gameCanvas.width/a.z) + cy;
+                const ar = (1-a.z/gameCanvas.width)*a.size;
+
+                if (ar > 0) {
+                    gctx.fillStyle = '#4b5563';
+                    gctx.beginPath(); 
+                    gctx.rect(ax-ar/2, ay-ar/2, ar, ar); 
+                    gctx.fill();
+                    if (a.z < 250 && Math.abs(ax-cx) < ar * 0.8 && Math.abs(ay-cy) < ar * 0.8) {
+                        hull -= 15;
+                        document.getElementById('hull-bar').style.width = hull+'%';
+                        if (hull < 40) document.getElementById('hull-bar').classList.replace('bg-emerald-500', 'bg-red-500');
+                        if (hull <= 0) { 
+                            gameActive = false; 
+                            document.exitPointerLock();
+                            document.getElementById('game-over').style.display = 'block';
+                        }
+                        return false;
+                    }
+                }
+                return a.z > 0;
+            });
+
+            // Draw Planets
+            let planetNear = false;
+            gPlanets = gPlanets.filter(p => {
+                p.z -= 7 * speed;
+                const px = (p.x - (mX-cx)*0.5) * (gameCanvas.width/p.z) + cx;
+                const py = (p.y - (mY-cy)*0.5) * (gameCanvas.width/p.z) + cy;
+                const pr = (1-p.z/gameCanvas.width)*p.size;
+                if (pr > 0) {
+                    planetNear = true;
+                    gctx.fillStyle = p.color; gctx.beginPath(); gctx.arc(px, py, pr, 0, Math.PI*2); gctx.fill();
+                    if (p.z < 300 && ((Math.abs(px-cx) < pr && Math.abs(py-cy) < pr) || (manualWarpRequested && p.z < 800))) {
+                        manualWarpRequested = false;
+                        gamePaused = true; 
+                        document.exitPointerLock();
+                        document.getElementById('scroll-overlay').style.display='flex';
+                        document.getElementById('scroll-loading').style.display='block'; 
+                        fetchAncientKnowledge();
+                        return false;
+                    }
+                }
+                return p.z > 0;
+            });
+
+            document.getElementById('alert-msg').style.display = planetNear ? 'block' : 'none';
+            if (!planetNear) manualWarpRequested = false;
+
+            // HUD Crosshair
+            gctx.strokeStyle = planetNear ? 'rgba(251, 191, 36, 0.9)' : 'rgba(255, 255, 255, 0.4)';
+            gctx.beginPath();
+            gctx.moveTo(cx - 30, cy); gctx.lineTo(cx - 10, cy);
+            gctx.moveTo(cx + 10, cy); gctx.lineTo(cx + 30, cy);
+            gctx.moveTo(cx, cy - 30); gctx.lineTo(cx, cy - 10);
+            gctx.moveTo(cx, cy + 10); gctx.lineTo(cx, cy + 30);
+            gctx.stroke();
+
+            requestAnimationFrame(gameLoop);
         }
 
-        window.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
-        window.addEventListener('mousedown', () => { if(gameActive) speed = 10; });
-        window.addEventListener('mouseup', () => { if(gameActive) speed = 1; });
-        window.addEventListener('keydown', e => { if (e.key === 'Escape') { gameActive = false; gameOverlay.style.display = 'none'; } });
-        window.addEventListener('resize', resize);
+        function attemptWarp() { if (warpReady) startVoyager(); else { const i = document.getElementById('footer-warp-icon'); i.classList.add('locked-warp'); setTimeout(()=>i.classList.remove('locked-warp'), 500); } }
 
-        resize(); animateBackground(); render();
+        window.onmousemove = e => {
+            if (document.pointerLockElement === gameCanvas) {
+                mX += e.movementX;
+                mY += e.movementY;
+                mX = Math.max(0, Math.min(gameCanvas.width, mX));
+                mY = Math.max(0, Math.min(gameCanvas.height, mY));
+            } else {
+                mX = e.clientX;
+                mY = e.clientY;
+            }
+        };
+
+        window.onmousedown = () => {
+            if (gameActive && document.pointerLockElement !== gameCanvas && !gamePaused) {
+                gameCanvas.requestPointerLock();
+            }
+            speed = 6;
+        };
+        window.onmouseup = () => speed = 1;
+        
+        window.onkeydown = e => { 
+            const key = e.key.toLowerCase();
+            
+            // Global Escape
+            if (e.key === 'Escape') { 
+                gameActive = false; 
+                gameOverlay.style.display = 'none'; 
+                document.exitPointerLock();
+                if (gamePaused) closeScroll();
+            } 
+
+            // Scroll Control: Press X to close
+            if (gamePaused && key === 'x') {
+                closeScroll();
+                return;
+            }
+
+            // Game Controls
+            if (gameActive && !gamePaused) {
+                if (key === 'w') manualWarpRequested = true;
+                if (e.code === 'Space') { fireLaser(); e.preventDefault(); }
+            }
+        };
+
+        window.onload = () => {
+            render();
+            const bgCanvas = document.getElementById('star-canvas');
+            const bgCtx = bgCanvas.getContext('2d');
+            let stars = [];
+            function res() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; stars = Array(200).fill().map(()=>({x:Math.random()*bgCanvas.width, y:Math.random()*bgCanvas.height, s:Math.random()*1.5, o:Math.random(), v:0.01})); }
+            function draw() { bgCtx.clearRect(0,0,bgCanvas.width,bgCanvas.height); stars.forEach(s=>{ bgCtx.fillStyle=`rgba(255,255,255,${s.o})`; bgCtx.beginPath(); bgCtx.arc(s.x,s.y,s.s,0,Math.PI*2); bgCtx.fill(); s.o+=s.v; if(s.o>1||s.o<0)s.v=-s.v; }); requestAnimationFrame(draw); }
+            res(); draw(); window.onresize = res;
+        };
     </script>
 </body>
 </html>
